@@ -14,13 +14,13 @@ class VirtualBankAccountTest {
     private final int ZERO_AMOUNT = 0;
 
     private final String ACCOUNT_NUMBER = "123-4889-9289-91";
-    private final int ONE_MILLION = 1_000;
+    private final int ONE_THOUSAND = 1_000;
 
     private VirtualBankAccount account;
 
     @BeforeEach
     void setUp() {
-        account = new VirtualBankAccount(ACCOUNT_NUMBER, ONE_MILLION);
+        account = new VirtualBankAccount(ACCOUNT_NUMBER, ONE_THOUSAND);
     }
 
     @Test
@@ -35,21 +35,21 @@ class VirtualBankAccountTest {
     void addAmount() {
         int balanceBeforeDeposit = account.getBalance();
 
-        account.deposit(ONE_MILLION);
+        account.deposit(ONE_THOUSAND);
 
         int balanceAfterDeposit = account.getBalance();
 
-        assertThat(balanceAfterDeposit).isEqualTo(balanceBeforeDeposit + ONE_MILLION);
+        assertThat(balanceAfterDeposit).isEqualTo(balanceBeforeDeposit + ONE_THOUSAND);
     }
 
     @Test
     @DisplayName("잔액이 부족하거나 출금 금액이 0 또는 음수일 경우 Exception 발생")
     void invalidWithdraw() {
-        account.withdraw(ONE_MILLION);
+        account.withdraw(ONE_THOUSAND);
 
         assertThatThrownBy(() -> account.withdraw(INVALID_AMOUNT)).isInstanceOf(InvalidAccountArgumentException.class);
         assertThatThrownBy(() -> account.withdraw(ZERO_AMOUNT)).isInstanceOf(InvalidAccountArgumentException.class);
-        assertThatThrownBy(() -> account.withdraw(ONE_MILLION)).isInstanceOf(BalanceException.class);       // 잔액 부족
+        assertThatThrownBy(() -> account.withdraw(ONE_THOUSAND)).isInstanceOf(BalanceException.class);       // 잔액 부족
     }
 
     @Test
@@ -57,10 +57,10 @@ class VirtualBankAccountTest {
     void withdrawAmount() {
         int balanceBeforeWithdraw = account.getBalance();
 
-        account.withdraw(ONE_MILLION);
+        account.withdraw(ONE_THOUSAND);
 
         int balanceAfterWithdraw = account.getBalance();
 
-        assertThat(balanceAfterWithdraw).isEqualTo(balanceBeforeWithdraw - ONE_MILLION);
+        assertThat(balanceAfterWithdraw).isEqualTo(balanceBeforeWithdraw - ONE_THOUSAND);
     }
 }

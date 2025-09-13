@@ -9,7 +9,6 @@ public class AtmService {
     private final BankApi bankApi;
 
     private String currentCardNumber;
-    private String currentAccountNumber;
 
     public AtmService(BankApi bankApi) {
         this.bankApi = bankApi;
@@ -19,30 +18,29 @@ public class AtmService {
         bankApi.validatePin(cardNumber, pin);
 
         this.currentCardNumber = cardNumber;
-        this.currentAccountNumber = cardNumber;
     }
 
-    public int getBalance() {
-        if(this.currentCardNumber == null || this.currentAccountNumber == null) {
+    public int getBalance(String accountNumber) {
+        if(this.currentCardNumber == null) {
             throw new RuntimeException(NOT_AUTH_MESSAGE);
         }
 
-        return bankApi.getBalance(this.currentCardNumber, this.currentAccountNumber);
+        return bankApi.getBalance(this.currentCardNumber, accountNumber);
     }
 
-    public void deposit(int amount) {
-        if(this.currentCardNumber == null || this.currentAccountNumber == null) {
+    public void deposit(String accountNumber, int amount) {
+        if(this.currentCardNumber == null) {
             throw new RuntimeException(CHECK_VALUE_MESSAGE);
         }
 
-        bankApi.deposit(this.currentCardNumber, this.currentAccountNumber, amount);
+        bankApi.deposit(this.currentCardNumber, accountNumber, amount);
     }
 
-    public void withdraw(int amount) {
-        if(this.currentCardNumber == null || this.currentAccountNumber == null) {
+    public void withdraw(String accountNumber, int amount) {
+        if(this.currentCardNumber == null) {
             throw new RuntimeException(CHECK_VALUE_MESSAGE);
         }
 
-        bankApi.withdraw(this.currentCardNumber, this.currentAccountNumber, amount);
+        bankApi.withdraw(this.currentCardNumber, accountNumber, amount);
     }
 }

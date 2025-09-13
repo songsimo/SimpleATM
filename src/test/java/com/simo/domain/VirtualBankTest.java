@@ -24,16 +24,16 @@ class VirtualBankTest {
     private final String ACCOUNT_NUMBER_TWO = "101-4889-9289-91";
     private final String ACCOUNT_NUMBER_THREE = "533-4111-9289-91";
 
-    private final int ONE_MILLION = 1_000;
+    private final int ONE_THOUSAND = 1_000;
     private final int ONE_HUNDRED = 100;
 
     private final Map<String, Integer> ACCOUNT_INFO_BY_CARD_ONE = Map.of(
-            ACCOUNT_NUMBER_ONE, ONE_MILLION
+            ACCOUNT_NUMBER_ONE, ONE_THOUSAND
     );
 
     private final Map<String, Integer> ACCOUNT_INFO_BY_CARD_TWO = Map.of(
-            ACCOUNT_NUMBER_TWO, ONE_MILLION * 2,
-            ACCOUNT_NUMBER_THREE, ONE_MILLION * 3
+            ACCOUNT_NUMBER_TWO, ONE_THOUSAND * 2,
+            ACCOUNT_NUMBER_THREE, ONE_THOUSAND * 3
     );
 
     private VirtualBank bank;
@@ -64,7 +64,7 @@ class VirtualBankTest {
         Account account = result.getFirst();
 
         assertThat(account.getAccountNumber()).isEqualTo(ACCOUNT_NUMBER_ONE);
-        assertThat(account.getBalance()).isEqualTo(ONE_MILLION);
+        assertThat(account.getBalance()).isEqualTo(ONE_THOUSAND);
     }
 
     @Test
@@ -75,7 +75,7 @@ class VirtualBankTest {
         int balanceOfInvalidCard = bank.getBalance(INVALID_CARD_NUMBER, account.getAccountNumber());
         int balanceOfInvalidAccount = bank.getBalance(VALID_CARD_NUMBER_ONE, ACCOUNT_NUMBER_THREE);
 
-        assertThat(balance).isEqualTo(ONE_MILLION);
+        assertThat(balance).isEqualTo(ONE_THOUSAND);
         assertThat(balanceOfInvalidCard).isEqualTo(0);
         assertThat(balanceOfInvalidAccount).isEqualTo(0);
     }
