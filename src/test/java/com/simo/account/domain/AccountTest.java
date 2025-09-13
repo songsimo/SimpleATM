@@ -1,5 +1,7 @@
 package com.simo.account.domain;
 
+import com.simo.account.exception.InvalidAccountArgumentException;
+import com.simo.bank.exception.BalanceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,8 +26,8 @@ class AccountTest {
     @Test
     @DisplayName("입금 금액이 0 또는 음수일 경우 Exception 발생")
     void invalidDeposit() {
-        assertThatThrownBy(() -> account.deposit(INVALID_AMOUNT)).isInstanceOf(RuntimeException.class);
-        assertThatThrownBy(() -> account.deposit(ZERO_AMOUNT)).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() -> account.deposit(INVALID_AMOUNT)).isInstanceOf(InvalidAccountArgumentException.class);
+        assertThatThrownBy(() -> account.deposit(ZERO_AMOUNT)).isInstanceOf(InvalidAccountArgumentException.class);
     }
 
     @Test
@@ -38,5 +40,27 @@ class AccountTest {
         int balanceAfterDeposit = account.getBalance();
 
         assertThat(balanceAfterDeposit).isEqualTo(balanceBeforeDeposit + ONE_MILLION);
+    }
+
+    @Test
+    @DisplayName("잔액이 부족하거나 출금 금액이 0 또는 음수일 경우 Exception 발생")
+    void invalidWithdraw() {
+        account.withdraw(ONE_MILLION);
+
+        assertThatThrownBy(() -> account.withdraw(INVALID_AMOUNT)).isInstanceOf(InvalidAccountArgumentException.class);
+        assertThatThrownBy(() -> account.withdraw(ZERO_AMOUNT)).isInstanceOf(InvalidAccountArgumentException.class);
+        assertThatThrownBy(() -> account.withdraw(ONE_MILLION)).isInstanceOf(BalanceException.class);       // 잔액 부족
+    }
+
+    @Test
+    @DisplayName("계좌에서 돈을 출금한다.")
+    void withdrawAmount() {
+        int balanceBeforeWithdraw = account.getBalance();
+
+        account.withdraw(ONE_MILLION);
+
+        int balanceAfterWithdraw = account.getBalance();
+
+        assertThat(balanceAfterWithdraw).isEqualTo(balanceBeforeWithdraw - ONE_MILLION);
     }
 }
