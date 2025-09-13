@@ -1,4 +1,4 @@
-package com.simo.bank.exception;
+package com.simo.exception;
 
 public class BalanceException extends RuntimeException {
     public BalanceException(String message) {

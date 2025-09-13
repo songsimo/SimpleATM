@@ -1,4 +1,4 @@
-package com.simo.account.exception;
+package com.simo.exception;
 
 public class InvalidAccountArgumentException extends RuntimeException {
     public InvalidAccountArgumentException(String message) {

@@ -1,7 +1,7 @@
-package com.simo.account.domain;
+package com.simo.domain;
 
-import com.simo.account.exception.InvalidAccountArgumentException;
-import com.simo.bank.exception.BalanceException;
+import com.simo.exception.InvalidAccountArgumentException;
+import com.simo.exception.BalanceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

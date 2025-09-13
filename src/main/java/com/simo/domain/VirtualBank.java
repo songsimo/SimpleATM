@@ -1,8 +1,6 @@
-package com.simo.bank.domain;
+package com.simo.domain;
 
-import com.simo.account.domain.Account;
-import com.simo.account.domain.VirtualBankAccount;
-import com.simo.bank.exception.InvalidBankArgumentException;
+import com.simo.exception.InvalidBankArgumentException;
 
 import java.util.*;
 

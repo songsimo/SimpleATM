@@ -1,4 +1,4 @@
-package com.simo.account.domain;
+package com.simo.domain;
 
 public interface FinancialTransactions {
     void deposit(int amount);

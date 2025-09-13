@@ -1,6 +1,4 @@
-package com.simo.bank.domain;
-
-import com.simo.account.domain.Account;
+package com.simo.domain;
 
 import java.util.List;
 

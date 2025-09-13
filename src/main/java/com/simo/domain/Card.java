@@ -1,4 +1,4 @@
-package com.simo.bank.domain;
+package com.simo.domain;
 
 import java.util.Objects;
 

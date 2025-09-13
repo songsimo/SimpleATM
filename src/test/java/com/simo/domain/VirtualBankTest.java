@@ -1,13 +1,10 @@
-package com.simo.bank.domain;
+package com.simo.domain;
 
-import com.simo.account.domain.Account;
-import com.simo.bank.exception.InvalidBankArgumentException;
+import com.simo.exception.InvalidBankArgumentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 

@@ -1,7 +1,7 @@
-package com.simo.account.domain;
+package com.simo.domain;
 
-import com.simo.account.exception.InvalidAccountArgumentException;
-import com.simo.bank.exception.BalanceException;
+import com.simo.exception.InvalidAccountArgumentException;
+import com.simo.exception.BalanceException;
 
 import java.util.ArrayList;
 import java.util.List;
