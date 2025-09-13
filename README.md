@@ -2,7 +2,34 @@
 
 ----
 
-## 요구사항
+## 1. 프로젝트 복제
+
+----
+
+> git clone https://github.com/songsimo/SimpleATM.git
+> 
+> cd {path}/SimpleATM
+
+## 2. 프로젝트 빌드
+
+----
+
+> ./gradlew build
+
+## 3. 프로젝트 테스트
+
+----
+
+> ./gradlew test
+
+## 4. 프로젝트 실행
+
+----
+
+> java -jar build/libs/SimpleATM.jar
+
+
+## 5. 요구사항
 
 ----
 
@@ -16,7 +43,7 @@
    - 실제 은행시스템, 현금 보관함, 카드 리더기 등은 구현 범위에서 제외
    - PIN 번호가 올바른지 여부만 알려주는 가상의 은행 API를 사용하는 것으로 가정
 
-## 기능 요구사항
+## 6. 기능 요구사항
 
 ----
 
