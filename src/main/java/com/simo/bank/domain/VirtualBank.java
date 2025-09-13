@@ -4,6 +4,7 @@ import com.simo.account.domain.Account;
 import com.simo.account.domain.VirtualBankAccount;
 import com.simo.bank.exception.InvalidBankArgumentException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class VirtualBank implements BankApi {
 
     @Override
     public List<Account> findAccountByCardNumber(String cardNumber) {
-        return List.of();
+        return accountMap.getOrDefault(cardNumber, new ArrayList<>());
     }
 
     @Override

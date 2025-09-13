@@ -1,5 +1,6 @@
 package com.simo.bank.domain;
 
+import com.simo.account.domain.Account;
 import com.simo.bank.exception.InvalidBankArgumentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -55,5 +56,16 @@ class VirtualBankTest {
     void isValidCardAndPinNumber() {
         assertThatThrownBy(() -> bank.validatePin(VALID_CARD_NUMBER_ONE, INVALID_PIN_NUMBER)).isInstanceOf(InvalidBankArgumentException.class);
         assertThatThrownBy(() -> bank.validatePin(INVALID_CARD_NUMBER, VALID_PIN_NUMBER)).isInstanceOf(InvalidBankArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("카드번호와 연결된 계좌 목록을 조회")
+    void searchAccountList() {
+        List<Account> result = bank.findAccountByCardNumber(VALID_CARD_NUMBER_ONE);
+
+        Account account = result.getFirst();
+
+        assertThat(account.getAccountNumber()).isEqualTo(ACCOUNT_NUMBER_ONE);
+        assertThat(account.getBalance()).isEqualTo(ONE_MILLION);
     }
 }
