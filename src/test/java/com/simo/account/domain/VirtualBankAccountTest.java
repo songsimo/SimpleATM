@@ -9,18 +9,18 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class AccountTest {
+class VirtualBankAccountTest {
     private final int INVALID_AMOUNT = -1;
     private final int ZERO_AMOUNT = 0;
 
     private final String ACCOUNT_NUMBER = "123-4889-9289-91";
     private final int ONE_MILLION = 1_000;
 
-    private Account account;
+    private VirtualBankAccount account;
 
     @BeforeEach
     void setUp() {
-        account = new Account(ACCOUNT_NUMBER, ONE_MILLION);
+        account = new VirtualBankAccount(ACCOUNT_NUMBER, ONE_MILLION);
     }
 
     @Test

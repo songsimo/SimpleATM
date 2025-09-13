@@ -1,63 +1,69 @@
 package com.simo.bank.domain;
 
+import com.simo.account.domain.Account;
+import com.simo.account.domain.VirtualBankAccount;
 import com.simo.bank.exception.InvalidBankArgumentException;
 
-public class VirtualBank {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class VirtualBank implements BankApi {
     public static final int VALID_CARD_LENGTH = 16;
     public static final int VALID_PIN_LENGTH = 4;
 
-    public static final String EMPTY_MESSAGE = "Card 혹은 PIN 번호를 확인해주세요.";
+    public static final String NO_SUCH_CARD_NUMBER = "해당 카드를 찾을 수 없습니다";
+
     public static final String CARD_CHECK_MESSAGE = "Card 번호를 확인해주세요.";
     public static final String PIN_CHECK_MESSAGE = "PIN 번호를 확인해주세요.";
-    public static final String VALID_CARD_NUMBER = "1234567891011111";
-    public static final String VALID_PIN_NUMBER = "1234";
 
-    public VirtualBank() {
+    private List<Card> cardList;
+    private Map<String, List<Account>> accountMap;
+
+    public VirtualBank(List<Card> cardList, Map<String, List<Account>> accountMap) {
+        this.cardList = cardList;
+        this.accountMap = accountMap;
     }
 
-    public void validate(String cardNumber, String pin) {
-        if(isEmpty(cardNumber) || isEmpty(pin)) {
-            throw new InvalidBankArgumentException(EMPTY_MESSAGE);
-        }
+    @Override
+    public void validatePin(String cardNumber, String pin) {
+        Card card = cardList.stream()
+                .filter(o -> o.getCardNumber().equals(cardNumber))
+                .findFirst()
+                .orElseThrow(() -> new InvalidBankArgumentException(NO_SUCH_CARD_NUMBER));
 
-        if(isInvalidCardLength(cardNumber) || isInvalidPinLength(pin)) {
-            throw new InvalidBankArgumentException(CARD_CHECK_MESSAGE);
-        }
-
-        if(isInvalidCardNumber(cardNumber) || isInvalidPinNumber(pin)) {
+        if(!card.getPin().equals(pin)) {
             throw new InvalidBankArgumentException(PIN_CHECK_MESSAGE);
         }
     }
 
-    public boolean isValidCard(String cardNumber) {
-        if(isEmpty(cardNumber)) { return false; }
-
-        return !isInvalidCardLength(cardNumber) && !isInvalidCardNumber(cardNumber);
+    @Override
+    public List<Account> findAccountByCardNumber(String cardNumber) {
+        return List.of();
     }
 
-    public boolean isValidPin(String pin) {
-        if(isEmpty(pin)) { return false; }
-
-        return !isInvalidPinLength(pin) && !isInvalidPinNumber(pin);
+    @Override
+    public int getBalance(String accountNumber) {
+        return 0;
     }
 
-    private boolean isEmpty(String value) {
-        return value == null || value.isEmpty();
+    @Override
+    public void deposit(String accountNumber, double amount) {
+
     }
 
-    private boolean isInvalidCardLength(String cardNumber) {
-        return cardNumber.length() != VALID_CARD_LENGTH;
+    @Override
+    public void withdraw(String accountNumber, double amount) {
+
     }
 
-    private boolean isInvalidCardNumber(String cardNumber) {
-        return !VALID_CARD_NUMBER.equals(cardNumber);
-    }
+    public static VirtualBank of(List<Card> cardList, Map<String, Map<String, Integer>> accoruntMap) {
+        Map<String, List<Account>> accounts = new HashMap<>();
 
-    private boolean isInvalidPinLength(String pin) {
-        return pin.length() != VALID_PIN_LENGTH;
-    }
+        for(String cardNumber: accoruntMap.keySet()) {
+            accounts.put(cardNumber, VirtualBankAccount.of(accoruntMap.get(cardNumber)));
+        }
 
-    private boolean isInvalidPinNumber(String pin) {
-        return !VALID_PIN_NUMBER.equals(pin);
+        return new VirtualBank(cardList, accounts);
     }
 }
