@@ -3,7 +3,7 @@ package com.simo.account.domain;
 import com.simo.account.exception.InvalidAccountArgumentException;
 import com.simo.bank.exception.BalanceException;
 
-public class Account {
+public class Account implements FinancialTransactions {
     private static final String INVALID_DEPOSIT_AMOUNT = "입금하려는 금액이 유효하지 않습니다.";
     private static final String INVALID_WITHDRAW_AMOUNT = "출금하려는 금액이 유효하지 않습니다.";
     private static final String EMPTY_BALANCE = "잔액이 부족합니다.";
@@ -16,7 +16,7 @@ public class Account {
         this.balance = balance;
     }
 
-    //
+    @Override
     public synchronized void deposit(int amount) {
         if(amount <= 0) {
             throw new InvalidAccountArgumentException(INVALID_DEPOSIT_AMOUNT);
@@ -25,10 +25,7 @@ public class Account {
         this.balance += amount;
     }
 
-    public int getBalance() {
-        return this.balance;
-    }
-
+    @Override
     public synchronized void withdraw(int amount) {
         if(amount <= 0) {
             throw new InvalidAccountArgumentException(INVALID_WITHDRAW_AMOUNT);
@@ -39,5 +36,9 @@ public class Account {
         }
 
         this.balance -= amount;
+    }
+
+    public int getBalance() {
+        return this.balance;
     }
 }
