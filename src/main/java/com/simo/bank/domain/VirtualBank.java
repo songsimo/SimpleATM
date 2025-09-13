@@ -4,18 +4,10 @@ import com.simo.account.domain.Account;
 import com.simo.account.domain.VirtualBankAccount;
 import com.simo.bank.exception.InvalidBankArgumentException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class VirtualBank implements BankApi {
-    public static final int VALID_CARD_LENGTH = 16;
-    public static final int VALID_PIN_LENGTH = 4;
-
     public static final String NO_SUCH_CARD_NUMBER = "해당 카드를 찾을 수 없습니다";
-
-    public static final String CARD_CHECK_MESSAGE = "Card 번호를 확인해주세요.";
     public static final String PIN_CHECK_MESSAGE = "PIN 번호를 확인해주세요.";
 
     private List<Card> cardList;
@@ -44,17 +36,35 @@ public class VirtualBank implements BankApi {
     }
 
     @Override
-    public int getBalance(String accountNumber) {
-        return 0;
+    public int getBalance(String cardNumber, String accountNumber) {
+        List<Account> accountList = accountMap.get(cardNumber);
+
+        if(accountList == null || accountList.isEmpty()) {
+            return 0;
+        }
+
+        Optional<Account> account = accountList.stream()
+                .filter(o -> o.getAccountNumber().equals(accountNumber))
+                .findFirst();
+
+        return account.map(Account::getBalance).orElse(0);
     }
 
     @Override
-    public void deposit(String accountNumber, double amount) {
+    public void deposit(String cardNumber, String accountNumber, int amount) {
+        List<Account> accountList = accountMap.get(cardNumber);
 
+        if(accountList != null && !accountList.isEmpty()) {
+            Optional<Account> account = accountList.stream()
+                    .filter(o -> o.getAccountNumber().equals(accountNumber))
+                    .findFirst();
+
+            account.ifPresent(value -> ((VirtualBankAccount) value).deposit(amount));
+        }
     }
 
     @Override
-    public void withdraw(String accountNumber, double amount) {
+    public void withdraw(String accountNumber, int amount) {
 
     }
 

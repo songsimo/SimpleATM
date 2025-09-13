@@ -68,4 +68,31 @@ class VirtualBankTest {
         assertThat(account.getAccountNumber()).isEqualTo(ACCOUNT_NUMBER_ONE);
         assertThat(account.getBalance()).isEqualTo(ONE_MILLION);
     }
+
+    @Test
+    @DisplayName("계좌의 잔액을 조회한다. 유효하지 않은 계좌를 조회할 경우 잔액 0을 반환")
+    void getBalance() {
+        Account account = bank.findAccountByCardNumber(VALID_CARD_NUMBER_ONE).getFirst();
+        int balance = bank.getBalance(VALID_CARD_NUMBER_ONE, account.getAccountNumber());
+        int balanceOfInvalidCard = bank.getBalance(INVALID_CARD_NUMBER, account.getAccountNumber());
+        int balanceOfInvalidAccount = bank.getBalance(VALID_CARD_NUMBER_ONE, ACCOUNT_NUMBER_THREE);
+
+        assertThat(balance).isEqualTo(ONE_MILLION);
+        assertThat(balanceOfInvalidCard).isEqualTo(0);
+        assertThat(balanceOfInvalidAccount).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("계좌에 금액을 입금한다.")
+    void depositAmount() {
+        Account accountBeforeDeposit = bank.findAccountByCardNumber(VALID_CARD_NUMBER_ONE).getFirst();
+        int balanceBeforeDeposit = bank.getBalance(VALID_CARD_NUMBER_ONE, accountBeforeDeposit.getAccountNumber());
+        int expectedBalance = balanceBeforeDeposit + 100;
+
+        bank.deposit(VALID_CARD_NUMBER_ONE, accountBeforeDeposit.getAccountNumber(),100);
+
+        int balanceAfterDeposit = bank.getBalance(VALID_CARD_NUMBER_ONE, accountBeforeDeposit.getAccountNumber());
+
+        assertThat(balanceAfterDeposit).isEqualTo(expectedBalance);
+    }
 }
