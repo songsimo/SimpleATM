@@ -54,18 +54,26 @@ public class VirtualBank implements BankApi {
     public void deposit(String cardNumber, String accountNumber, int amount) {
         List<Account> accountList = accountMap.get(cardNumber);
 
+            if(accountList != null && !accountList.isEmpty()) {
+                Optional<Account> account = accountList.stream()
+                        .filter(o -> o.getAccountNumber().equals(accountNumber))
+                        .findFirst();
+
+                account.ifPresent(value -> ((VirtualBankAccount) value).deposit(amount));
+        }
+    }
+
+    @Override
+    public void withdraw(String cardNumber, String accountNumber, int amount) {
+        List<Account> accountList = accountMap.get(cardNumber);
+
         if(accountList != null && !accountList.isEmpty()) {
             Optional<Account> account = accountList.stream()
                     .filter(o -> o.getAccountNumber().equals(accountNumber))
                     .findFirst();
 
-            account.ifPresent(value -> ((VirtualBankAccount) value).deposit(amount));
+            account.ifPresent(value -> ((VirtualBankAccount) value).withdraw(amount));
         }
-    }
-
-    @Override
-    public void withdraw(String accountNumber, int amount) {
-
     }
 
     public static VirtualBank of(List<Card> cardList, Map<String, Map<String, Integer>> accoruntMap) {

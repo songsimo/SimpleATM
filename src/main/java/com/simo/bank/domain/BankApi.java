@@ -9,5 +9,5 @@ public interface BankApi {
     List<Account> findAccountByCardNumber(String cardNumber);
     int getBalance(String cardNumber, String accountNumber);
     void deposit(String cardNumber, String accountNumber, int amount);
-    void withdraw(String accountNumber, int amount);
+    void withdraw(String cardNumber, String accountNumber, int amount);
 }

@@ -28,6 +28,7 @@ class VirtualBankTest {
     private final String ACCOUNT_NUMBER_THREE = "533-4111-9289-91";
 
     private final int ONE_MILLION = 1_000;
+    private final int ONE_HUNDRED = 100;
 
     private final Map<String, Integer> ACCOUNT_INFO_BY_CARD_ONE = Map.of(
             ACCOUNT_NUMBER_ONE, ONE_MILLION
@@ -87,11 +88,25 @@ class VirtualBankTest {
     void depositAmount() {
         Account accountBeforeDeposit = bank.findAccountByCardNumber(VALID_CARD_NUMBER_ONE).getFirst();
         int balanceBeforeDeposit = bank.getBalance(VALID_CARD_NUMBER_ONE, accountBeforeDeposit.getAccountNumber());
-        int expectedBalance = balanceBeforeDeposit + 100;
+        int expectedBalance = balanceBeforeDeposit + ONE_HUNDRED;
 
-        bank.deposit(VALID_CARD_NUMBER_ONE, accountBeforeDeposit.getAccountNumber(),100);
+        bank.deposit(VALID_CARD_NUMBER_ONE, accountBeforeDeposit.getAccountNumber(), ONE_HUNDRED);
 
         int balanceAfterDeposit = bank.getBalance(VALID_CARD_NUMBER_ONE, accountBeforeDeposit.getAccountNumber());
+
+        assertThat(balanceAfterDeposit).isEqualTo(expectedBalance);
+    }
+
+    @Test
+    @DisplayName("계좌에 금액을 출금한다.")
+    void withDrawAmount() {
+        Account accountBeforeWithDraw = bank.findAccountByCardNumber(VALID_CARD_NUMBER_ONE).getFirst();
+        int balanceBeforeWithdraw = bank.getBalance(VALID_CARD_NUMBER_ONE, accountBeforeWithDraw.getAccountNumber());
+        int expectedBalance = balanceBeforeWithdraw - ONE_HUNDRED;
+
+        bank.withdraw(VALID_CARD_NUMBER_ONE, accountBeforeWithDraw.getAccountNumber(), ONE_HUNDRED);
+
+        int balanceAfterDeposit = bank.getBalance(VALID_CARD_NUMBER_ONE, accountBeforeWithDraw.getAccountNumber());
 
         assertThat(balanceAfterDeposit).isEqualTo(expectedBalance);
     }
